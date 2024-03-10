@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BaseTextView">
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textSize">@dimen/base_text_size</item>
+    </style>
+
+    <style name="TitleTextView" parent="BaseTextView">
+        <item name="android:textSize">@dimen/title_text_size</item>
+    </style>
+
+    <style name="LargeTextView" parent="BaseTextView">
+        <item name="android:textSize">@dimen/large_text_size</item>
+    </style>
+
+    <style name="TextInputLayout">
+        <item name="android:textColorHint">?android:textColorPrimary</item>
+        <item name="boxStrokeColor">?attr/colorAccent</item>
+        <item name="endIconTint">?attr/iconTint</item>
+        <item name="startIconTint">?attr/iconTint</item>
+    </style>
+
+    <style name="ProgressBar">
+        <item name="android:indeterminate">true</item>
+        <item name="indicatorColor">?attr/colorAccent</item>
+        <item name="indicatorSize">@dimen/base_icon_size</item>
+    </style>
+</resources>

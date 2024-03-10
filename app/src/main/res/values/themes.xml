@@ -1,0 +1,15 @@
+<resources>
+    <style name="Base.Theme.ProductsApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="iconTint">@color/iconTint</item>
+        <item name="android:windowBackground">@color/backgroundColor</item>
+        <item name="android:statusBarColor">@color/backgroundColor</item>
+        <item name="android:navigationBarColor">@color/backgroundColor</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="Theme.ProductsApp" parent="Base.Theme.ProductsApp" />
+</resources>
