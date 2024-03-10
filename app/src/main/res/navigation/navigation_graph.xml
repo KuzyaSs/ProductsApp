@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/productsFragment">
+
+    <fragment
+        android:id="@+id/productsFragment"
+        android:name="ru.ermakov.productsapp.presentation.screen.products.ProductsFragment"
+        android:label="ProductsFragment">
+        <action
+            android:id="@+id/action_productsFragment_to_categoryProductsFragment2"
+            app:destination="@id/categoryProductsFragment2"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_productsFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_productsFragment_to_searchProductsFragment"
+            app:destination="@id/searchProductsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryProductsFragment2"
+        android:name="ru.ermakov.productsapp.presentation.screen.categoryProducts.CategoryProductsFragment"
+        android:label="CategoryProductsFragment" />
+    <fragment
+        android:id="@+id/searchProductsFragment"
+        android:name="ru.ermakov.productsapp.presentation.screen.searchProducts.SearchProductsFragment"
+        android:label="SearchProductsFragment" />
+    <fragment
+        android:id="@+id/productDetailsFragment"
+        android:name="ru.ermakov.productsapp.presentation.screen.productDetails.ProductDetailsFragment"
+        android:label="ProductDetailsFragment" />
+</navigation>
