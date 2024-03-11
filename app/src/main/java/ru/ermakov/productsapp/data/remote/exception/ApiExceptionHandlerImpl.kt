@@ -2,9 +2,8 @@ package ru.ermakov.productsapp.data.remote.exception
 
 import com.google.gson.Gson
 import retrofit2.Response
-import javax.inject.Inject
 
-class ApiExceptionHandlerImpl @Inject constructor(private val gson: Gson) : ApiExceptionHandler {
+class ApiExceptionHandlerImpl(private val gson: Gson) : ApiExceptionHandler {
     override fun handleApiException(response: Response<*>): Exception {
         val apiExceptionBody = gson.fromJson(
             response.errorBody()?.string(),

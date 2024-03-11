@@ -2,9 +2,8 @@ package ru.ermakov.productsapp.data.remote.dataSource
 
 import ru.ermakov.productsapp.data.remote.api.CategoryApi
 import ru.ermakov.productsapp.data.remote.exception.ApiExceptionHandler
-import javax.inject.Inject
 
-class CategoryRemoteDataSourceImpl @Inject constructor(
+class CategoryRemoteDataSourceImpl(
     private val categoryApi: CategoryApi,
     private val apiExceptionHandler: ApiExceptionHandler
 ) : CategoryRemoteDataSource {

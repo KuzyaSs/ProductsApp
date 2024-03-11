@@ -4,11 +4,10 @@ import ru.ermakov.productsapp.data.remote.api.ProductApi
 import ru.ermakov.productsapp.data.remote.exception.ApiExceptionHandler
 import ru.ermakov.productsapp.data.remote.model.toProduct
 import ru.ermakov.productsapp.domain.model.Product
-import javax.inject.Inject
 
 private const val LIMIT = 20L
 
-class ProductRemoteDataSourceImpl @Inject constructor(
+class ProductRemoteDataSourceImpl(
     private val productApi: ProductApi,
     private val apiExceptionHandler: ApiExceptionHandler
 ) : ProductRemoteDataSource {
