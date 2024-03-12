@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="@dimen/medium_margin_size">
+
+        <ImageView
+            android:id="@+id/imageViewThumbnail"
+            android:layout_width="@dimen/base_image_size"
+            android:layout_height="@dimen/base_image_size"
+            android:layout_marginBottom="@dimen/medium_margin_size"
+            android:adjustViewBounds="true"
+            android:importantForAccessibility="no"
+            android:scaleType="fitCenter"
+            tools:src="@mipmap/ic_logo" />
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            style="@style/BaseTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/medium_margin_size"
+            tools:text="Pixel" />
+
+        <TextView
+            android:id="@+id/textViewPrice"
+            style="@style/LargeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/price_with_currency"
+            android:textColor="?attr/colorAccent"
+            android:textStyle="bold"
+            tools:text="150$" />
+    </LinearLayout>
+</FrameLayout>

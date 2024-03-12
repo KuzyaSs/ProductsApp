@@ -1,7 +1,9 @@
 <resources>
+
     <style name="Base.Theme.ProductsApp" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="iconTint">@color/iconTint</item>
         <item name="android:windowBackground">@color/backgroundColor</item>

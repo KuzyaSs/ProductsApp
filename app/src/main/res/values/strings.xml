@@ -1,4 +1,8 @@
 <resources>
     <string name="application_name">Products</string>
     <string name="products">Products</string>
+    <string name="no_results_found">No results found</string>
+    <string name="price_with_currency">%d$</string>
+    <string name="connection_failure">Connection failure</string>
+    <string name="brand_with_category">%s - %s</string>
 </resources>

@@ -2,8 +2,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="textColorSecondary">#787878</color>
+    <color name="colorAccent">#25AC1F</color>
     <color name="colorSecondary">#26252B</color>
     <color name="iconTint">#FFFFFF</color>
     <color name="backgroundColor">#18181A</color>
-    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/colorSecondary</color>
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">
+        @color/colorSecondary
+    </color>
 </resources>

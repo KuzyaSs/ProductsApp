@@ -33,7 +33,11 @@
     <fragment
         android:id="@+id/categoryProductsFragment2"
         android:name="ru.ermakov.productsapp.presentation.screen.categoryProducts.CategoryProductsFragment"
-        android:label="CategoryProductsFragment" />
+        android:label="CategoryProductsFragment" >
+        <argument
+            android:name="category"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/searchProductsFragment"
         android:name="ru.ermakov.productsapp.presentation.screen.searchProducts.SearchProductsFragment"
@@ -41,5 +45,9 @@
     <fragment
         android:id="@+id/productDetailsFragment"
         android:name="ru.ermakov.productsapp.presentation.screen.productDetails.ProductDetailsFragment"
-        android:label="ProductDetailsFragment" />
+        android:label="ProductDetailsFragment" >
+        <argument
+            android:name="productId"
+            app:argType="long" />
+    </fragment>
 </navigation>

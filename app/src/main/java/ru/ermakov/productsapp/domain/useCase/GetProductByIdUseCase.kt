@@ -5,7 +5,7 @@ import ru.ermakov.productsapp.domain.repository.ProductRepository
 import javax.inject.Inject
 
 class GetProductByIdUseCase @Inject constructor(private val productRepository: ProductRepository) {
-    suspend operator fun invoke(id: Long): Product {
-        return productRepository.getProductById(id = id)
+    suspend operator fun invoke(productId: Long): Product {
+        return productRepository.getProductById(id = productId)
     }
 }

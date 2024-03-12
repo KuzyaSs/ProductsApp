@@ -8,6 +8,8 @@
 
     <style name="TitleTextView" parent="BaseTextView">
         <item name="android:textSize">@dimen/title_text_size</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
     </style>
 
     <style name="LargeTextView" parent="BaseTextView">
@@ -23,7 +25,7 @@
 
     <style name="ProgressBar">
         <item name="android:indeterminate">true</item>
-        <item name="indicatorColor">?attr/colorAccent</item>
+        <item name="indicatorColor">?attr/iconTint</item>
         <item name="indicatorSize">@dimen/base_icon_size</item>
     </style>
 </resources>
