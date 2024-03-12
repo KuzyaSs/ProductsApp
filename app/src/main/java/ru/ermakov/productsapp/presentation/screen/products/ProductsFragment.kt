@@ -1,11 +1,14 @@
 package ru.ermakov.productsapp.presentation.screen.products
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -82,7 +85,9 @@ class ProductsFragment : Fragment() {
                 val layoutManager = recyclerView.layoutManager as GridLayoutManager
                 val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
                 if (layoutManager.itemCount - lastVisibleItemPosition <= THRESHOLD && recyclerView.scrollState != RecyclerView.SCROLL_STATE_IDLE) {
-                    productsViewModel.loadProductPage()
+                    productsViewModel.loadProductPage(
+                        searchQuery = binding.textInputEditTextSearch.text.toString().trim()
+                    )
                 }
             }
         })
@@ -91,13 +96,26 @@ class ProductsFragment : Fragment() {
     private fun setUpListeners() {
         binding.apply {
             swipeRefreshLayout.setOnRefreshListener {
-                productsViewModel.refreshProductsScreen()
+                productsViewModel.refreshProductsScreen(
+                    binding.textInputEditTextSearch.text.toString().trim()
+                )
             }
             swipeRefreshLayout.setOnChildScrollUpCallback { _, _ ->
                 scrollView.canScrollVertically(-1) ||
                         recyclerViewProducts.canScrollVertically(-1)
             }
-            imageViewSearch.setOnClickListener { navigateToSearchProductsScreen() }
+            imageViewSearch.setOnClickListener {
+                productsViewModel.setUpSearchMode(isSearchMode = true)
+                setUpKeyBoard(isKeyBoardShown = true)
+            }
+            imageViewBack.setOnClickListener {
+                productsViewModel.setUpSearchMode(isSearchMode = false)
+                setUpKeyBoard(isKeyBoardShown = false)
+            }
+
+            textInputEditTextSearch.addTextChangedListener { searchQuery ->
+                productsViewModel.searchProductPage(searchQuery = searchQuery.toString().trim())
+            }
         }
     }
 
@@ -106,6 +124,7 @@ class ProductsFragment : Fragment() {
             productsUiState.apply {
                 categoryAdapter?.submitList(categories)
                 productAdapter?.submitList(products)
+                setUpTitleBar(isSearchBarShown = isSearchMode)
                 setUpRefresh(isRefreshingShown = isRefreshing)
                 setUpProgressBar(isLoadingShown = products.isEmpty() && isLoading)
                 setUpToastErrorMessage(
@@ -114,6 +133,33 @@ class ProductsFragment : Fragment() {
                 )
                 setUpEmptyProductListMessage(isProductListEmptyShown = products.isEmpty() && !isLoading)
             }
+        }
+    }
+
+    private fun setUpTitleBar(isSearchBarShown: Boolean) {
+        binding.apply {
+            if (isSearchBarShown) {
+                textInputEditTextSearch.requestFocus()
+            } else {
+                textInputEditTextSearch.text?.clear()
+                textInputEditTextSearch.clearFocus()
+            }
+            textViewTitle.isVisible = !isSearchBarShown
+            imageViewSearch.isVisible = !isSearchBarShown
+            linearLayoutSearchBar.isVisible = isSearchBarShown
+        }
+    }
+
+    private fun setUpKeyBoard(isKeyBoardShown: Boolean) {
+        val inputMethodManager = requireActivity()
+            .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        if (isKeyBoardShown) {
+            inputMethodManager.showSoftInput(binding.textInputEditTextSearch, 0)
+        } else {
+            inputMethodManager.hideSoftInputFromWindow(
+                binding.textInputEditTextSearch.windowToken,
+                0
+            )
         }
     }
 
@@ -138,11 +184,6 @@ class ProductsFragment : Fragment() {
 
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun navigateToSearchProductsScreen() {
-        val action = ProductsFragmentDirections.actionProductsFragmentToSearchProductsFragment()
-        findNavController().navigate(action)
     }
 
     private fun navigateToCategoryProductsScreen(category: String) {

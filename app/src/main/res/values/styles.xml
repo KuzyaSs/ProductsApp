@@ -18,7 +18,9 @@
 
     <style name="TextInputLayout">
         <item name="android:textColorHint">?android:textColorPrimary</item>
-        <item name="boxStrokeColor">?attr/colorAccent</item>
+        <item name="cursorColor">?android:textColorPrimary</item>
+        <item name="hintTextColor">?android:textColorPrimary</item>
+        <item name="boxStrokeColor">?attr/colorSecondary</item>
         <item name="endIconTint">?attr/iconTint</item>
         <item name="startIconTint">?attr/iconTint</item>
     </style>

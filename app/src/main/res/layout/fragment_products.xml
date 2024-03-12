@@ -31,6 +31,43 @@
             android:layout_marginEnd="@dimen/base_margin_size"
             android:importantForAccessibility="no"
             android:src="@drawable/ic_search" />
+
+        <LinearLayout
+            android:id="@+id/linearLayoutSearchBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/imageViewBack"
+                android:layout_width="@dimen/base_icon_size"
+                android:layout_height="@dimen/base_icon_size"
+                android:layout_marginStart="@dimen/base_margin_size"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_back" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutSearch"
+                style="@style/TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/medium_margin_size"
+                android:layout_marginEnd="@dimen/base_margin_size"
+                android:hint="@string/search"
+                android:paddingVertical="@dimen/medium_margin_size"
+                app:endIconMode="clear_text">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputEditTextSearch"
+                    style="@style/LargeTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLength="350" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -66,13 +103,13 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginTop="@dimen/medium_margin_size"
-                    app:spanCount="2"
                     android:paddingHorizontal="@dimen/medium_margin_size"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/recyclerViewCategories" />
+                    app:layout_constraintTop_toBottomOf="@id/recyclerViewCategories"
+                    app:spanCount="2" />
 
                 <com.google.android.material.progressindicator.CircularProgressIndicator
                     android:id="@+id/progressBar"

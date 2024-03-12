@@ -1,6 +1,5 @@
 package ru.ermakov.productsapp.data.remote.dataSource
 
-import android.util.Log
 import ru.ermakov.productsapp.data.remote.api.ProductApi
 import ru.ermakov.productsapp.data.remote.exception.ApiExceptionHandler
 import ru.ermakov.productsapp.data.remote.model.toProduct
@@ -29,12 +28,10 @@ class ProductRemoteDataSourceImpl(
             skip = skip
         )
         if (productsResponse.isSuccessful) {
-            Log.d("MY_TAG", "SUCCESS getProductPageByCategory ${productsResponse.body()}")
             productsResponse.body()?.let { remoteProducts ->
                 return remoteProducts.products.map { remoteProduct -> remoteProduct.toProduct() }
             }
         }
-        Log.d("MY_TAG", "ERROR getProductPageByCategory ${productsResponse.errorBody()}")
         throw apiExceptionHandler.handleApiException(response = productsResponse)
     }
 
@@ -48,12 +45,10 @@ class ProductRemoteDataSourceImpl(
             skip = skip
         )
         if (productsResponse.isSuccessful) {
-            Log.d("MY_TAG", "SUCCESS getProductPageBySearchQuery ${productsResponse.body()}")
             productsResponse.body()?.let { remoteProducts ->
                 return remoteProducts.products.map { remoteProduct -> remoteProduct.toProduct() }
             }
         }
-        Log.d("MY_TAG", "ERROR getProductPageBySearchQuery ${productsResponse.errorBody()}")
         throw apiExceptionHandler.handleApiException(response = productsResponse)
     }
 

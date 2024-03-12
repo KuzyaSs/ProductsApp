@@ -5,4 +5,5 @@
     <string name="price_with_currency">%d$</string>
     <string name="connection_failure">Ошибка соединения</string>
     <string name="brand_with_category">%s - %s</string>
+    <string name="search">Поиск</string>
 </resources>

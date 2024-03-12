@@ -10,29 +10,81 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.ermakov.productsapp.domain.useCase.GetAllCategoriesUseCase
-import ru.ermakov.productsapp.domain.useCase.GetProductPageUseCase
+import ru.ermakov.productsapp.domain.useCase.GetProductPageBySearchQueryUseCase
 import ru.ermakov.productsapp.presentation.Constants.DEFAULT_SKIP_VALUE
 import ru.ermakov.productsapp.presentation.Constants.LOAD_PRODUCT_PAGE_DELAY
+import ru.ermakov.productsapp.presentation.Constants.SEARCH_PRODUCT_PAGE_DELAY
 
 class ProductsViewModel(
     private val getAllCategoriesUseCase: GetAllCategoriesUseCase,
-    private val getProductPageUseCase: GetProductPageUseCase
+    private val getProductPageBySearchQueryUseCase: GetProductPageBySearchQueryUseCase
 ) : ViewModel() {
     private val _productsUiState = MutableLiveData(ProductsUiState())
     val productsUiState: LiveData<ProductsUiState> = _productsUiState
 
+    private var searchProductPageJob: Job? = null
     private var loadProductPageJob: Job? = null
 
     init {
-        setUpProductsScreen()
+        searchProductPage()
     }
 
-    fun refreshProductsScreen() {
+    fun searchProductPage(searchQuery: String = "") {
+        if (searchQuery == _productsUiState.value?.lastSearchQuery
+            && _productsUiState.value?.isRefreshing == false
+        ) {
+            return
+        }
+        searchProductPageJob?.cancel()
+        loadProductPageJob?.cancel()
+
+        _productsUiState.value = _productsUiState.value?.copy(
+            products = emptyList(),
+            lastSearchQuery = searchQuery,
+            isRefreshing = false,
+            isLoading = true,
+            isError = false
+        )
+        searchProductPageJob = viewModelScope.launch(Dispatchers.IO) {
+            try {
+                delay(SEARCH_PRODUCT_PAGE_DELAY)
+                val categories =
+                    if (_productsUiState.value?.categories.isNullOrEmpty()) getAllCategoriesUseCase()
+                    else _productsUiState.value?.categories ?: emptyList()
+
+                _productsUiState.postValue(
+                    _productsUiState.value?.copy(
+                        categories = categories,
+                        products = getProductPageBySearchQueryUseCase(
+                            searchQuery = searchQuery,
+                            skip = DEFAULT_SKIP_VALUE
+                        ),
+                        isLoading = false,
+                        isError = false
+                    )
+                )
+            } catch (exception: Exception) {
+                if (exception !is CancellationException) {
+                    val errorMessage = exception.message.toString()
+                    _productsUiState.postValue(
+                        _productsUiState.value?.copy(
+                            isRefreshing = false,
+                            isLoading = false,
+                            isError = true,
+                            errorMessage = errorMessage
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    fun refreshProductsScreen(searchQuery: String) {
         _productsUiState.value = _productsUiState.value?.copy(isRefreshing = true)
-        setUpProductsScreen()
+        searchProductPage(searchQuery = searchQuery)
     }
 
-    fun loadProductPage() {
+    fun loadProductPage(searchQuery: String) {
         if (_productsUiState.value?.isLoading == true) {
             return
         }
@@ -48,7 +100,8 @@ class ProductsViewModel(
                 val currentProducts = _productsUiState.value?.products ?: emptyList()
                 _productsUiState.postValue(
                     _productsUiState.value?.copy(
-                        products = currentProducts + getProductPageUseCase(
+                        products = currentProducts + getProductPageBySearchQueryUseCase(
+                            searchQuery = searchQuery,
                             skip = currentProducts.size.toLong()
                         ),
                         isRefreshing = false,
@@ -72,41 +125,14 @@ class ProductsViewModel(
         }
     }
 
+    fun setUpSearchMode(isSearchMode: Boolean) {
+        _productsUiState.value = _productsUiState.value?.copy(isSearchMode = isSearchMode)
+    }
+
     fun clearErrorMessage() {
         _productsUiState.value = _productsUiState.value?.copy(
             isError = false,
             errorMessage = ""
         )
-    }
-
-    private fun setUpProductsScreen() {
-        loadProductPageJob?.cancel()
-        _productsUiState.value = _productsUiState.value?.copy(
-            isLoading = true,
-            isError = false
-        )
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                _productsUiState.postValue(
-                    _productsUiState.value?.copy(
-                        categories = getAllCategoriesUseCase(),
-                        products = getProductPageUseCase(skip = DEFAULT_SKIP_VALUE),
-                        isRefreshing = false,
-                        isLoading = false,
-                        isError = false
-                    )
-                )
-            } catch (exception: Exception) {
-                val errorMessage = exception.message.toString()
-                _productsUiState.postValue(
-                    _productsUiState.value?.copy(
-                        isRefreshing = false,
-                        isLoading = false,
-                        isError = true,
-                        errorMessage = errorMessage
-                    )
-                )
-            }
-        }
     }
 }
