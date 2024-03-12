@@ -1,6 +1,5 @@
 package ru.ermakov.productsapp.data.remote.dataSource
 
-import android.util.Log
 import ru.ermakov.productsapp.data.remote.api.CategoryApi
 import ru.ermakov.productsapp.data.remote.exception.ApiExceptionHandler
 

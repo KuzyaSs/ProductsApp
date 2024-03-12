@@ -84,13 +84,13 @@ class ProductDetailsFragment : Fragment() {
                     setUpProductDetails(product = product)
                     setUpToastErrorMessage(
                         errorMessage = errorMessage,
-                        isErrorMessageShown = isErrorMessage
+                        isErrorMessageShown = isError
                     )
                 }
                 setUpLoadingScreen(isLoadingScreenShown = product == null)
                 setUpRefresh(isRefreshingShown = isRefreshing)
                 setUpProgressBar(isLoadingShown = product == null && isLoading)
-                setUpErrorMessage(isErrorMessageShown = isErrorMessage)
+                setUpErrorMessage(isErrorMessageShown = isError)
             }
         }
     }

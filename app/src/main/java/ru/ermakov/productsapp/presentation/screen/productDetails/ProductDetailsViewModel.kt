@@ -17,7 +17,7 @@ class ProductDetailsViewModel(
     fun setUpProductDetailsScreen(productId: Long) {
         _productDetailsUiState.value = _productDetailsUiState.value?.copy(
             isLoading = true,
-            isErrorMessage = false
+            isError = false
         )
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -26,7 +26,7 @@ class ProductDetailsViewModel(
                         product = getProductByIdUseCase(productId = productId),
                         isRefreshing = false,
                         isLoading = false,
-                        isErrorMessage = false
+                        isError = false
                     )
                 )
             } catch (exception: Exception) {
@@ -35,7 +35,7 @@ class ProductDetailsViewModel(
                     _productDetailsUiState.value?.copy(
                         isRefreshing = false,
                         isLoading = false,
-                        isErrorMessage = true,
+                        isError = true,
                         errorMessage = errorMessage
                     )
                 )
@@ -50,7 +50,7 @@ class ProductDetailsViewModel(
 
     fun clearErrorMessage() {
         _productDetailsUiState.value = _productDetailsUiState.value?.copy(
-            isErrorMessage = false,
+            isError = false,
             errorMessage = ""
         )
     }

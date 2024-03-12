@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/base_margin_size"
             android:paddingVertical="@dimen/medium_margin_size"
+            android:textStyle="bold"
             app:drawableStartCompat="@drawable/ic_back"
             tools:text="Google - Phone" />
     </androidx.cardview.widget.CardView>

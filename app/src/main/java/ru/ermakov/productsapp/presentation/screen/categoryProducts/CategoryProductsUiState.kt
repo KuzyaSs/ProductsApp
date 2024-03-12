@@ -1,9 +1,9 @@
-package ru.ermakov.productsapp.presentation.screen.productDetails
+package ru.ermakov.productsapp.presentation.screen.categoryProducts
 
 import ru.ermakov.productsapp.domain.model.Product
 
-data class ProductDetailsUiState(
-    val product: Product? = null,
+data class CategoryProductsUiState(
+    val products: List<Product> = emptyList(),
     val isRefreshing: Boolean = false,
     val isLoading: Boolean = false,
     val isError: Boolean = false,

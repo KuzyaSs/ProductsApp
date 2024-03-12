@@ -14,11 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.ermakov.productsapp.R
 import ru.ermakov.productsapp.app.ProductsApplication
 import ru.ermakov.productsapp.databinding.FragmentProductsBinding
+import ru.ermakov.productsapp.presentation.Constants.THRESHOLD
 import ru.ermakov.productsapp.presentation.adapter.CategoryAdapter
 import ru.ermakov.productsapp.presentation.adapter.ProductAdapter
 import javax.inject.Inject
-
-private const val THRESHOLD = 6
 
 class ProductsFragment : Fragment() {
     private var _binding: FragmentProductsBinding? = null
@@ -110,10 +109,10 @@ class ProductsFragment : Fragment() {
                 setUpRefresh(isRefreshingShown = isRefreshing)
                 setUpProgressBar(isLoadingShown = products.isEmpty() && isLoading)
                 setUpToastErrorMessage(
-                    errorMessage = errorMessage,
-                    isErrorMessageShown = isErrorMessage
+                    errorMessage = resources.getString(R.string.connection_failure),
+                    isErrorMessageShown = isError
                 )
-                setUpEmptyProductListMessage(isProductListEmpty = products.isEmpty() && !isLoading)
+                setUpEmptyProductListMessage(isProductListEmptyShown = products.isEmpty() && !isLoading)
             }
         }
     }
@@ -133,8 +132,8 @@ class ProductsFragment : Fragment() {
         }
     }
 
-    private fun setUpEmptyProductListMessage(isProductListEmpty: Boolean) {
-        binding.linearLayoutEmptyListMessage.isVisible = isProductListEmpty
+    private fun setUpEmptyProductListMessage(isProductListEmptyShown: Boolean) {
+        binding.linearLayoutEmptyListMessage.isVisible = isProductListEmptyShown
     }
 
     private fun showToast(message: String) {

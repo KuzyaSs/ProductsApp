@@ -3,6 +3,7 @@ package ru.ermakov.productsapp.di
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
+import ru.ermakov.productsapp.presentation.screen.categoryProducts.CategoryProductsFragment
 import ru.ermakov.productsapp.presentation.screen.productDetails.ProductDetailsFragment
 import ru.ermakov.productsapp.presentation.screen.products.ProductsFragment
 import javax.inject.Singleton
@@ -22,5 +23,8 @@ interface ApplicationComponent {
     }
 
     fun inject(fragment: ProductsFragment)
+
     fun inject(fragment: ProductDetailsFragment)
+
+    fun inject(fragment: CategoryProductsFragment)
 }

@@ -4,15 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.ermakov.productsapp.domain.useCase.GetAllCategoriesUseCase
 import ru.ermakov.productsapp.domain.useCase.GetProductPageUseCase
-
-private const val LOAD_PRODUCT_PAGE_DELAY = 1000L
-private const val DEFAULT_SKIP_VALUE = 0L
+import ru.ermakov.productsapp.presentation.Constants.DEFAULT_SKIP_VALUE
+import ru.ermakov.productsapp.presentation.Constants.LOAD_PRODUCT_PAGE_DELAY
 
 class ProductsViewModel(
     private val getAllCategoriesUseCase: GetAllCategoriesUseCase,
@@ -40,39 +40,41 @@ class ProductsViewModel(
 
         _productsUiState.value = _productsUiState.value?.copy(
             isLoading = true,
-            isErrorMessage = false
+            isError = false
         )
         loadProductPageJob = viewModelScope.launch(Dispatchers.IO) {
             try {
                 delay(LOAD_PRODUCT_PAGE_DELAY)
-                val currentProduct = _productsUiState.value?.products ?: listOf()
+                val currentProducts = _productsUiState.value?.products ?: emptyList()
                 _productsUiState.postValue(
                     _productsUiState.value?.copy(
-                        products = currentProduct + getProductPageUseCase(
-                            skip = currentProduct.size.toLong()
+                        products = currentProducts + getProductPageUseCase(
+                            skip = currentProducts.size.toLong()
                         ),
                         isRefreshing = false,
                         isLoading = false,
-                        isErrorMessage = false
+                        isError = false
                     )
                 )
             } catch (exception: Exception) {
-                val errorMessage = exception.message.toString()
-                _productsUiState.postValue(
-                    _productsUiState.value?.copy(
-                        isRefreshing = false,
-                        isLoading = false,
-                        isErrorMessage = true,
-                        errorMessage = errorMessage
+                if (exception !is CancellationException) {
+                    val errorMessage = exception.message.toString()
+                    _productsUiState.postValue(
+                        _productsUiState.value?.copy(
+                            isRefreshing = false,
+                            isLoading = false,
+                            isError = true,
+                            errorMessage = errorMessage
+                        )
                     )
-                )
+                }
             }
         }
     }
 
     fun clearErrorMessage() {
         _productsUiState.value = _productsUiState.value?.copy(
-            isErrorMessage = false,
+            isError = false,
             errorMessage = ""
         )
     }
@@ -81,7 +83,7 @@ class ProductsViewModel(
         loadProductPageJob?.cancel()
         _productsUiState.value = _productsUiState.value?.copy(
             isLoading = true,
-            isErrorMessage = false
+            isError = false
         )
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -91,7 +93,7 @@ class ProductsViewModel(
                         products = getProductPageUseCase(skip = DEFAULT_SKIP_VALUE),
                         isRefreshing = false,
                         isLoading = false,
-                        isErrorMessage = false
+                        isError = false
                     )
                 )
             } catch (exception: Exception) {
@@ -100,7 +102,7 @@ class ProductsViewModel(
                     _productsUiState.value?.copy(
                         isRefreshing = false,
                         isLoading = false,
-                        isErrorMessage = true,
+                        isError = true,
                         errorMessage = errorMessage
                     )
                 )
